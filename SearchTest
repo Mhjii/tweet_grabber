@@ -1,0 +1,46 @@
+import json
+import tweepy
+from textblob import TextBlob
+from tweepy import OAuthHandler
+
+consumer_key = 'TelkaEC2GUWR0IJogWxkrpZKy'
+consumer_secret = 'ENYYJseZJ1IY0wqXUSnEj0i2L0Xz3v2c6MRvPEzY6hnrt3ZEEj'
+access_token = '1620837440-0p8voswXhMYGO8upThRqeGwzUuh3TI9sPnQkZim'
+access_secret = 'obvlWiW1Tvkdl1JYyA6hbIrJ96yvq1OS2hILRHs3R0HHy'
+SearchDone = False
+
+auth = OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_secret)
+
+api = tweepy.API(auth)
+
+
+api = tweepy.API(auth)
+
+
+results = api.search(q=["trump", "#trump"], lang="en", count=100)
+#print(results)
+
+print(results.__sizeof__())
+average = 0
+for i in range(0, results.__sizeof__()):
+    if(results[i] == None):
+        next()
+    status = results[i]
+    #print("Tweet text:", status.text)
+    textb = TextBlob(status.text)
+    sentiment = 5 * float(textb.sentiment.polarity)
+    print(sentiment)
+    average = (average * i + sentiment) / (i+1)
+
+
+
+
+print("Average Sentimate over the last 200 tweets\n" , average)
+print("\n -5 is mostly negative 5 is mostly positive")
+
+F_NAME = 'Adam_Savage_Timeline.json'
+with open(F_NAME,'w') as f_out:
+    for status in search:
+        json.dump(status._json, f_out)
+        f_out.write('\n')
